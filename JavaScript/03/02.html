@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sử dụng kiểu dữ liệu trong Javascript</title>
+</head>
+<body>
+<script>
+    var preson03 = new Object();
+    preson03.firstName = "James";
+    preson03["lastname"] = "Bobd";
+    preson03.age = 25;
+    preson03.getFullName = function () {
+        return this.firstName + ' ' + this.lastname;
+    }
+    preson03.firstName;
+    preson03.lastname;
+    preson03.getFullName();
+</script>
+</body>
+</html>

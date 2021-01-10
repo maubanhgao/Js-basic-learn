@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array</title>
+</head>
+<body>
+<p>
+    Phương thức <code><strong>concat()</strong></code> dùng để kết nối 2 hay nhiều mảng với nhau. Phương thức này  không làm thay đổi các mảng đã có mà thay vào đó sẽ trả về 1 mảng mới.
+</p>
+<h2>Nối 2 mảng</h2>
+<script>
+    var alpha = ['a', 'b', 'c'];
+    var numeric = [1, 2, 3];
+    console.log(alpha.concat(numeric));
+</script>
+<h2>Nối 2 mảng</h2>
+<script>
+    var num1 = [1, 2, 3],
+        num2 = [4, 5, 6],
+        num3 = [7, 8, 9];
+    var nums = num1.concat(num2, num3);
+    console.log(nums);
+</script>
+<h2>Nối các giá trị vào một mảng</h2>
+<script>
+    var alpha = [ 'a', 'b', 'c'];
+    var alphaNumeric = alpha.concat(1, [ 2, 3]);
+    console.log(alphaNumeric);
+</script>
+<h2>Nối mảng lồng nhau</h2>
+<script>
+    var num1 = [[1]];
+    var num2 = [2, [3]];
+    var nums = num1.concat(num2);
+    console.log(nums);
+
+    // modify the first element of num1
+    num1[0].push(4);
+    console.log(nums);
+</script>
+</body>
+</html>

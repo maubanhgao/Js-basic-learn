@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sử dụng kiểu dữ liệu trong Javascript</title>
+</head>
+<body>
+<script>
+    var emptyObject = {}; // object with no properties or methods
+
+    var person01 = { firstName: "John" }; // object with single property
+
+    // object with single method
+    var message = {
+        showMessage: function (val) {
+            alert(val);
+        }
+    };
+
+    // object with properties & method
+    var person02 = {
+        firstName: "James",
+        lastName: "Bond",
+        age: 15,
+        getFullName: function () {
+            return this.firstName + ' ' + this.lastName
+        }
+    }
+</script>
+</body>
+</html>
