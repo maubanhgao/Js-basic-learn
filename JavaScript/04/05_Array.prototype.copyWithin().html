@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Array</title>
+</head>
+<body>
+<p>
+    <code><strong>copyWithin()</strong></code>  là một phương thức sao chép cạn một phần của mảng tới một vị trí khác trong mảng đó và trả về giá trị mà không thay đổi độ dài của mảng
+</p>
+<script>
+    const array1 = ['a', 'b', 'c', 'd', 'e'];
+    // copy to index 0 the element at index 3
+    console.log(array1.copyWithin(0,1));
+    console.log(array1);
+    console.log(array1.copyWithin(0,2));
+    const array2 = ['a', 'b', 'c', 'd', 'e'];
+    // copy to index 0 the element at index 3
+    console.log(array2.copyWithin(0, 3, 4));
+    // expected output: Array ["d", "b", "c", "d", "e"]
+</script>
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Callbacl</title>
+</head>
+<body>
+<h1> Hello World :) :) </h1>
+<h2> This is the javaTpoint.com </h2>'
+
+<script>
+    function showData(name, amt) {
+        alert(' Hello ' + name + '\n Your entered amount is ' + amt);
+    }
+
+    function getData(callback) {
+        var name = prompt(" Welcome to the javaTpoint.com \n What is your name?");
+        var amt = prompt(" Enter some amount...");
+        callback(name, amt);
+    }
+
+    getData(showData);
+</script>
+</body>
+</html>
