@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Furama</title>
+</head>
+<body>
+<div id="formDiv">
+    <form id="myForm" onsubmit="return myFunction()" name="myForm">
+        <h1>Customer</h1>
+        <label for="name">Name: </label> <br>
+        <input type="text" ID="name" name="name" required ><br>
+
+        <label for="cmnd">CMND:</label><br>
+        <input type="text" id="cmnd" name="cmnd" required><br>
+
+        <label for="date">Date:</label><br>
+        <input type="date" id="date" name="date" required><br>
+
+        <label>Dept: </label>
+        <input type="checkbox"  name="dept" value="male">
+        <input type="checkbox"  name="dept" value="female"><br>
+
+        <label for="email">Email:</label><br>
+        <input type="text" id="email" name="email" ><br>
+
+        <label for="address">Address:</label><br>
+        <select name="address" id="address"></select><br>
+
+        <label for="numPhone">Num Phone</label><br>
+        <input type="text" id="numPhone" required><br>
+
+        <label for="cusTypes">Customer Type:</label> <br>
+        <select name="cusTypes" id="cusTypes"></select><br>
+
+        <label for="numPeople">Number people:</label> <br>
+        <input type="text" id="numPeople" name="numPeople" ><br>
+
+        <label for="days">Days:</label> <br>
+        <input type="text" id="days" name="days" min="1" max="50"  ><br>
+
+        <label for="cusServices">Customer service:</label> <br>
+        <select name="cusServices" id="cusServices"></select><br><br>
+
+        <label for="roomTypes">Type Room:</label> <br>
+        <select name="roomTypes" id="roomTypes"></select><br><br>
+
+        <button type="submit" name="submit">Submit Ok</button>
+        <button type="reset" name="reset">Reset</button>
+    </form>
+</div>
+
+<p id="demo">In show</p>
+<p id="addcus"></p>
+<H2>Customer List</H2>
+<p id="showList"></p>
+<script type="application/javascript" src="js/employee.js"></script>
+<script type="application/javascript" src="js/data.js"></script>
+<script type="application/javascript" src="js/useCall.js"></script>
+<script type="application/javascript" src="js/listCustomer.js"></script>
+<script>
+    var j;
+    function showElementFormI(value, nameArr) {
+        return nameArr[value];
+    }
+    function checkValidate() {
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        var numbers = /^[0-9]+$/;
+        var vDay = document.getElementById('days').value;
+        var vPeople = document.getElementById("numPeople").value;
+        var vEmail = document.getElementById("email").value;
+        var vCMND = document.getElementById("cmnd").value;
+        if(!vEmail.match(mailformat)){
+            alert("You have entered an invalid email address!!");
+            document.myForm.email.focus();
+            return true;
+        }
+        if(!vPeople.match(numbers)){
+            alert("You have entered an invalid People Number!!");
+            document.myForm.numPeople.focus();
+            return true;
+        }
+        if(!vDay.match(numbers)){
+            alert("You have entered an invalid Days number !!");
+            document.myForm.days.focus();
+            return true;
+        }
+        if(!vCMND.match(numbers)){
+            alert("You have entered an invalid CMND number !!");
+            document.myForm.days.focus();
+            return true;
+        }
+        return false;
+    }
+    function info(){
+        checkValidate();
+        var arrForm = [];
+        var txt = "";
+        var i = 0;
+        var x = document.getElementById("myForm");
+        arrForm.push(document.getElementById("name").value);
+        // txt += "Name: " + arrForm[arrForm.length - 1 ];
+        txt += "Name: " + arrForm[i];
+
+        arrForm.push(document.getElementById("cmnd").value);
+        txt += "<br/>CMND: " + arrForm[++i];
+
+        var d = new Date(document.getElementById("date").value);
+        var dateFormat;
+        if(d.getMonth()+1 < 10){
+            dateFormat = d.getFullYear() + "-0" + (d.getMonth() + 1) + "-" +  d.getDate() ;
+        } else {
+            dateFormat = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" +  d.getDate() ;
+        }
+        arrForm.push(dateFormat);
+        txt += "<br/>BirthDate: " + dateFormat;
+        arrForm[++i];
+
+        arrForm.push(document.getElementById("email").value);
+        txt += "<br/>Email: " + arrForm[++i];
+
+        arrForm.push(document.getElementById("address").value);
+        txt += "<br/>Address: " + addressArr[arrForm[++i]];
+
+        arrForm.push(document.getElementById("numPhone").value);
+        txt += "<br/>Number Phone: " + arrForm[++i];
+
+        arrForm.push(document.getElementById("cusTypes").value);
+        txt += "<br/>Customer Type: " + showElementFormI(arrForm[++i], customerTypes);
+
+        arrForm.push(document.getElementById("numPeople").value);
+        txt += "<br/>Number People: " + arrForm[++i];
+
+        arrForm.push(document.getElementById("days").value);
+        txt += "<br/>Days Stay: " + arrForm[++i];
+
+        arrForm.push(document.getElementById("cusServices").value);
+        txt += "<br/>Customer Service: " + showElementFormI(arrForm[++i], cusServices);
+
+        arrForm.push(document.getElementById("roomTypes").value);
+        txt += "<br/>Room Type: " + showElementFormI(arrForm[++i], roomTypes);
+
+        document.getElementById("demo").innerHTML = "<h2>Thông tin vừa nhập</h2>" + txt;
+        return arrForm;
+    }
+    function myFunction() {
+        var arr = info();
+        var AddCus = listCustomer(arr);
+        var txt2 = "";
+        txt2 += "Giá trước khi giảm: " + caculMoney(AddCus.cusServices.name, AddCus.days) + "$";
+        txt2 += "<br/>Giá sau khi giảm: " + caculMoneySale(AddCus.cusServices.name, addressArr[AddCus.address], AddCus.days, AddCus.cusTypes.name) + "$";
+        document.getElementById("addcus").innerHTML = "<h2>Gía thuê</h2>" + txt2;
+        showList();
+        // alert("Add cus succes!");
+        return false;
+    }
+    
+    function myFunctionEdit() {
+        info();
+        var txt2 = "";
+        txt2 += "Giá trước khi giảm: " + caculMoney(listCus.lists[j].cusServices.name, listCus.lists[j].days) + "$";
+        txt2 += "<br/>Giá sau khi giảm: "
+            + caculMoneySale(listCus.lists[j].cusServices.name, addressArr[listCus.lists[j].address], listCus.lists[j].days, listCus.lists[j].cusTypes.name)
+            + "$";
+        document.getElementById("addcus").innerHTML = "<h2>Gía thuê</h2>" + txt2;
+        showList();
+    }
+
+    function listCustomer(arr) {
+        var i = 0;
+        var objCusTypes = {};
+        var objCusServices = {};
+        var objRoomTypes ={};
+        var AddCus = {};
+
+            AddCus.name = arr[i];
+            AddCus.cmnd = arr[++i];
+            AddCus.date = arr[++i];
+            AddCus.email = arr[++i];
+            AddCus.address = arr[++i];
+            AddCus.numPhone = arr[++i];
+            objCusTypes.value = arr[++i];
+            objCusTypes.name= showElementFormI(objCusTypes.value , customerTypes);
+            AddCus.cusTypes = objCusTypes;
+            // AddCus.sale = arr[++i];
+            AddCus.numPeople = arr[++i];
+            AddCus.days = arr[++i];
+            objCusServices.value = arr[++i];
+            objCusServices.name = showElementFormI(objCusServices.value, cusServices);
+            AddCus.cusServices = objCusServices;
+            objRoomTypes.value = arr[++i];
+            objRoomTypes.name = showElementFormI(objRoomTypes.value, roomTypes);
+            AddCus.roomTypes = objRoomTypes;
+
+            listCus.addCus(AddCus);
+
+        return AddCus;
+    }
+    function caculMoneySale( serType, address, days, cusT) {
+        // loai dich vu * so ngay * (1 - sale/100)
+        var total, saleSerType, saleAddress, saleDays, saleCusT;
+
+        if( serType === "Villa" ){
+            saleSerType = 500;
+        } else if(serType === "House"){
+            saleSerType = 300;
+        } else if (serType = "Room") {
+            saleSerType = 100;
+        }
+        if(address === 'Đà Nẵng'){
+            saleAddress = 20;
+        }else if(address === 'Huế'){
+            saleAddress = 10;
+        }else if(address === 'Quảng Nam'){
+            saleAddress = 5;
+        }
+        if(days >= 2 && days <=4){
+            saleDays = 10;
+        }else if(days >= 5 && days <= 7){
+            saleDays = 20;
+        }else if(days > 7){
+            saleDays = 30;
+        }
+        if(cusT === 'Diamond'){
+            saleCusT = 15;
+        }else if(cusT === 'Plaimium'){
+            saleCusT = 10;
+        }else if(cusT === 'Gold'){
+            saleCusT = 5;
+        }else if(cusT === 'Silver'){
+            saleCusT = 2;
+        }else if(cusT === 'Menber'){
+            saleCusT = 0;
+        }
+        total = saleSerType * days - (1 - (saleAddress + saleDays + saleCusT)/100);
+
+        return total;
+    }
+    function caculMoney( serType,days) {
+        // loai dich vu * so ngay
+        var total;
+        if( serType === "Villa" ){
+            total = 500 * days;
+        } else if(serType === "House"){
+            total = 300 * days;
+        } else if (serType = "Room") {
+            total = 100 * days;
+        }
+        return total;
+    }
+    function showList() {
+        var txt = "";
+        txt += "<table border='1'><tr><th>name</th><th>date</th><th>dept</th><th>CMND</th><th>Phone</th><th>Email</th><th>CusType</th><th>Address</th><th>CusServices</th><th>RoomType</th><th>Edit</th></tr>";
+        var i = 0;
+        for(i; i< listCus.lists.length; i++){
+            txt += "<tr>"
+                +"<td>" +listCus.lists[i].name+ "</td>" + "<td>" +listCus.lists[i].date+"</td>"
+                + "<td>" +listCus.lists[i].dept+ "</td>" + "<td>" +listCus.lists[i].cmnd+ "</td>"
+                + "<td> " +listCus.lists[i].numPhone+ " </td>"
+                    + "<td> "+listCus.lists[i].email+" </td>" + "<td> "+listCus.lists[i].cusTypes.name+" </td>"
+                    + "<td>" +addressArr[listCus.lists[i].address]+ "</td>" + "<td>"+listCus.lists[i].cusServices.name+ "</td>"
+                    + "<td>"+listCus.lists[i].roomTypes.name+"</td>"
+                    + "<td><button onclick='showMenuEdit(" +i+ ")'>Edit</button></td>"
+                + "</tr>";
+        }
+        txt += "</table>"
+        document.getElementById("showList").innerHTML = txt;
+        return false;
+    }
+    showList();
+    function checkSeclected(type, sel) {
+        var txt = "";
+        for(let i in sel){
+            if(sel[i] === type.name){
+                txt += "<option value='" + i +"' selected >" + sel[i]+"</option>";
+            } else {
+                txt += "<option value='" + i +"'>" + sel[i]+"</option>";
+            }
+        }
+        return txt;
+    }
+    function checkSeclectedForArr(value, check) {
+        var txt = "";
+        for(let i in check){
+            if( i == value){
+                txt += "<option value='" + i +"' selected >" + check[i]+"</option>";
+            } else {
+                txt += "<option value='" + i +"'>" + check[i]+"</option>";
+            }
+        }
+        return txt;
+    }
+    
+
+    function showMenuEdit(index) {
+
+        // var d = new Date(obj.date);
+        var txt = "";
+        txt += '<form name="myForm" id="myForm" onsubmit="return myFunctionChange()">' +
+            '<h1>Edit Customer</h1>\n' +
+            '    <label for="name">Name: </label> <br>\n' +
+            '    <input type="text" ID="name" name="name" required value="' +listCus.lists[index].name+ '"><br>\n' +
+            '\n' +
+            '    <label for="cmnd">CMND:</label><br>\n' +
+            '    <input type="text" id="cmnd" name="cmnd" required value="'+listCus.lists[index].cmnd+'"><br>\n' +
+            '\n' +
+            '    <label for="date">Date:</label><br>\n' +
+            '    <input type="date" id="date" name="date" required value="'+listCus.lists[index].date+'"><br>\n' +
+            '\n' +
+            '    <label for="email">Email:</label><br>\n' +
+            '    <input type="text" id="email" name="email" required value="'+listCus.lists[index].email+'"><br>\n' +
+            '\n' +
+            '    <label for="address">Address:</label><br>\n' +
+            '    <select id="address" name="address">' +checkSeclectedForArr(listCus.lists[index].address, addressArr)+ '</select><br>\n' +
+            '\n' +
+            '    <label for="numPhone">Num Phone</label><br>\n' +
+            '    <input type="text" id="numPhone" required value="'+listCus.lists[index].numPhone+'"><br>\n' +
+            '\n' +
+            '    <label for="cusTypes">Customer Type:</label> <br>\n' +
+            '    <select name="cusTypes" id="cusTypes" >'+checkSeclected(listCus.lists[index].cusTypes, customerTypes)+'</select><br>\n' +
+            '\n' +
+            '    <label for="numPeople">Number people:</label> <br>\n' +
+            '    <input type="text" id="numPeople" name="numPeople" required value="'+listCus.lists[index].numPeople+'"><br>\n' +
+            '\n' +
+            '    <label for="days">Days:</label> <br>\n' +
+            '    <input type="text" id="days" name="days" min="1" max="50" required value="'+listCus.lists[index].days+'"><br>\n' +
+            '\n' +
+            '    <label for="cusServices">Customer service:</label> <br>\n' +
+            '    <select name="cusServices" id="cusServices">'+checkSeclected(listCus.lists[index].cusServices, cusServices)+'</select><br><br>\n' +
+            '\n' +
+            '    <label for="roomTypes">Type Room:</label> <br>\n' +
+            '    <select name="roomTypes" id="roomTypes">'+checkSeclected(listCus.lists[index].roomTypes, roomTypes)+'</select><br><br>\n' +
+            '\n' +
+            '    <button type="submit" name="submit">Submit Ok</button>\n' +
+            '    <button type="reset" name="reset">Reset</button>' +
+            '</form>';
+        document.getElementById("formDiv").innerHTML = txt;
+        j = index;
+        return false;
+    }
+    function myFunctionChange() {
+        checkValidate();
+        var name = document.getElementById("name");
+        var cmnd = document.getElementById("cmnd");
+        var date = document.getElementById("date");
+        var email = document.getElementById("email");
+        var address = document.getElementById("address");
+        var numPhone = document.getElementById("numPhone");
+        var cusTypes = document.getElementById("cusTypes");
+        var days = document.getElementById("days");
+        var cusSer = document.getElementById("cusServices");
+        var roomT = document.getElementById("roomTypes");
+        //
+        // // var defaultVal = name.defaultValue;
+        // // var currentVal = name.value;
+        if(name.defaultValue !== name.value){
+            listCus.lists[j].name = name.value;
+        }
+        if(cmnd.defaultValue !== cmnd.value){
+            listCus.lists[j].cmnd = cmnd.value;
+        }
+        if(date.defaultValue !== date.value){
+            listCus.lists[j].date = date.value;
+        }
+        if(email.defaultValue !== email.value){
+            listCus.lists[j].email = email.value;
+        }
+        if(address.defaultValue !== address.value){
+            listCus.lists[j].address = address.value;
+        }
+        if(numPhone.defaultValue !== numPhone.value){
+            listCus.lists[j].numPhone = numPhone.value;
+        }
+        if(cusTypes.defaultValue !== cusTypes.value){
+            listCus.lists[j].cusTypes.value = cusTypes.value;
+            listCus.lists[j].cusTypes.name = customerTypes[cusTypes.value];
+        }
+        if(days.defaultValue !== days.value){
+            listCus.lists[j].days = days.value;
+        }
+        if(cusSer.defaultValue !== cusSer.value){
+            listCus.lists[j].cusServices.value = cusSer.value;
+            listCus.lists[j].cusServices.name = cusServices[cusSer.value];
+        }
+        if(roomT.defaultValue !== roomT.value){
+            listCus.lists[j].roomTypes.value = roomT.value;
+            listCus.lists[j].roomTypes.name = roomTypes[roomT.value];
+        }
+        alert("Da save");
+        myFunctionEdit();
+        return false;
+    }
+</script>
+
+</body>
+</html>
